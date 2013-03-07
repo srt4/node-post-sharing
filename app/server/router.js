@@ -83,6 +83,31 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.post('/posts', function(req, res) {
+        if(req.session.user == null) {
+            res.redirect('/');
+        } else {
+            console.log(req.params);
+            var text = req.param('text', null);
+            if (text == null) {
+                res.send('error-posting', 400);
+            }
+
+            PM.createPost(
+                {
+                    userId: req.session.user._id,
+                    text: text
+                },
+                function(error) {
+                    if(error) {
+                        res.send('error-posting' + error, 400);
+                    }
+                    res.redirect('/posts');
+                }
+            );
+        }
+    });
 	
 	app.post('/home', function(req, res){
 		if (req.param('user') != undefined) {

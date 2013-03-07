@@ -17,10 +17,9 @@ db.open(function(e, d){
 var posts = db.collection('posts');
 
 exports.findPosts = function(callback) {
-    posts.find().toArray(callback)
+    posts.find().sort({$natural: -1}).toArray(callback)
 };
 
 exports.createPost = function(post, callback) {
-    posts.insert(post, {safe:true}, function(error){
-    });
+    posts.insert(post, {safe:true}, callback);
 };
