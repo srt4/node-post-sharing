@@ -23,3 +23,12 @@
 .post:last-of-type {
     border-bottom: none;
 }
+
+form {
+    padding: 15px 0 0 15px;
+    margin: 0;
+}
+
+textarea {
+    width: 95%;
+}

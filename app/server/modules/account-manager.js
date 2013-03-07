@@ -129,6 +129,10 @@ exports.getAllRecords = function(callback)
 	});
 };
 
+exports.getRecordsForQuery = function(query, callback) {
+    accounts.find(query).toArray(callback);
+}
+
 exports.delAllRecords = function(callback)
 {
 	accounts.remove({}, callback); // reset accounts collection for testing //
