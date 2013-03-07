@@ -9,7 +9,7 @@ var express = require('express');
 var http = require('http');
 var app = express();
 
-app.configure("dev", function(){
+app.configure(function(){
 	app.set('port', 8080);
 	app.set('views', __dirname + '/app/server/views');
 	app.set('view engine', 'jade');

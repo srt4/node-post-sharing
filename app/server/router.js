@@ -5,7 +5,7 @@ var EM = require('./modules/email-dispatcher');
 var Mongoose = require('./modules/mongoose');
 
 module.exports = function(app) {
-    
+
 	app.get('/', function(req, res){
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
 			res.render('login', { title: 'Hello - Please Login To Your Account' });
@@ -53,11 +53,9 @@ module.exports = function(app) {
         if (req.session.user == null) {
             res.redirect('/');
         } else {
-            Mongoose.getPostModel().find(function(error, posts){
-                console.log(posts);
-            });
             Mongoose.getPostModel()
                 .find()
+                .sort({'_id': -1})
                 .populate('user')
                 .populate('likes')
                 .exec(function(error, posts) {
@@ -105,9 +103,12 @@ module.exports = function(app) {
                 req.session.user._id
             );
 
-            result.save(function(err){
-                if(err) res.send(err);
-                else res.redirect('/posts');
+            result.save(function(error){
+                if(!error) {
+                    res.redirect('/posts');
+                } else {
+                    res.send('Error');
+                }
             });
         });
     });

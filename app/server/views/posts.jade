@@ -8,7 +8,7 @@ block content
         - each post in posts
             div.post
                 div.post-text=post.text
-                div.post-user Posted by #{post.user.username}
+                div.post-user Posted by #{post.user.username} at #{post.dateCreated}
                 form(
                     method='post'
                     action='/post/' + post._id + '/like'

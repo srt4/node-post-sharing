@@ -8,6 +8,9 @@ var Post = new Schema({
     likes: [{type: Schema.Types.ObjectId, ref: 'User'}],
     replies: [Post]
 });
+Post.virtual('dateCreated').get(function(){
+    return this._id.getTimestamp();
+});
 
 var User = new Schema({
     username: String,
@@ -18,6 +21,7 @@ var User = new Schema({
 });
 
 var UserModel = mongoose.model('User', User);
+
 var PostModel = mongoose.model('Post', Post);
 
 exports.createNewUser = function() {
