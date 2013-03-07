@@ -35,14 +35,3 @@ exports.getUserModel = function() {
 exports.getPostModel = function() {
     return PostModel;
 };
-
-PostModel.create(
-    {
-        user: [
-            new UserModel(
-
-            )
-        ],
-        text: ""
-    }
-)
