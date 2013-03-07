@@ -74,7 +74,7 @@ exports.updateAccount = function (newData, callback) {
             userModel.save(o, {safe:true}, callback);
         } else {
             saltAndHash(newData.pass, function (hash) {
-                o.pass = hash;
+                o.password = hash;
                 userModel.save(o, {safe:true}, callback);
             });
         }
@@ -85,7 +85,7 @@ exports.updatePassword = function (email, newPass, callback) {
     saltAndHash(newPass, function (hash) {
         userModel.findOneAndUpdate(
             {email:email},
-            {pass:hash},
+            {password:hash},
             callback
         );
     });
@@ -108,7 +108,7 @@ exports.getAccountByEmail = function (email, callback) {
 
 exports.validateResetLink = function (email, passHash, callback) {
     userModel.find({ $and:[
-        {email:email, pass:passHash}
+        {email:email, password:passHash}
     ] }, function (e, o) {
         callback(o ? 'ok' : null);
     });
