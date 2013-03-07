@@ -3,6 +3,8 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
 var PM = require('./modules/post-manager');
+var PostFactory = require('./models/post.js');
+var Mongoose = require('./modules/mongoose');
 
 module.exports = function(app) {
 
@@ -74,13 +76,21 @@ module.exports = function(app) {
         if (req.session.user == null) {
             res.redirect('/');
         } else {
-            PM.findPosts(function(error, posts) {
-                res.render('posts', {
-                    title: "Posts",
-                    udata: req.session.user,
-                    posts: posts
-                });
+            Mongoose.getPostModel().find(function(error, posts){
+                console.log(posts);
             });
+            Mongoose.getPostModel()
+                .find()
+                .populate('user')
+                .exec(function(error, posts) {
+                    console.log(posts);
+                    res.render('posts', {
+                        title: "Posts",
+                        udata: req.session.user,
+                        posts: posts
+                    });
+                }
+            );
         }
     });
 
@@ -94,18 +104,21 @@ module.exports = function(app) {
                 res.send('error-posting', 400);
             }
 
-            PM.createPost(
-                {
-                    userId: req.session.user._id,
+            console.log(req.session.user.email);
+            Mongoose.getUserModel().findOne({
+                    email: req.session.user.email
+            }, function(error, user) {
+                console.log("making post with " + user._id);
+                console.log(user);
+                Mongoose.getPostModel().create({
+                    user: user._id,
                     text: text
-                },
-                function(error) {
-                    if(error) {
-                        res.send('error-posting' + error, 400);
-                    }
+                }, function(error){
+                    if(error) res.send(error);
                     res.redirect('/posts');
-                }
-            );
+                });
+            });
+
         }
     });
 	
