@@ -3,7 +3,6 @@ var moment = require('moment');
 var mongoose = require('./mongoose');
 
 var userModel = mongoose.getUserModel();
-var postModel = mongoose.getPostModel();
 
 /* login validation methods */
 exports.autoLogin = function (user, pass, callback) {
