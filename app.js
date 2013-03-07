@@ -9,7 +9,7 @@ var express = require('express');
 var http = require('http');
 var app = express();
 
-app.configure(function(){
+app.configure("dev", function(){
 	app.set('port', 8080);
 	app.set('views', __dirname + '/app/server/views');
 	app.set('view engine', 'jade');
@@ -30,4 +30,4 @@ require('./app/server/router')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log("Express server listening on port " + app.get('port'));
-})
+});

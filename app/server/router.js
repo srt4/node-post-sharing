@@ -141,9 +141,9 @@ module.exports = function(app) {
 				}
 			});
 		}	else if (req.param('logout') == 'true'){
-			res.clearCookie('user');
-			res.clearCookie('pass');
-			req.session.destroy(function(e){ res.send('ok', 200); });
+			res.clearCookie('user', null);
+			res.clearCookie('pass', null);
+			req.session.destroy(function(e){ if(!e) res.send('ok', 200); });
 		}
 	});
 
@@ -172,10 +172,12 @@ module.exports = function(app) {
 			if (o){
 				res.send('ok', 200);
 				EM.dispatchResetPasswordLink(o, function(e, m){
-					if (!e) {
+					if (!e && m) {
 					}	else{
 						res.send('email-server-error', 400);
-						for (k in e) console.log('error : ', k, e[k]);
+						for (var k in e)
+                            if(e.hasOwnProperty(k))
+                                console.log('error : ', k, e[k]);
 					}
 				});
 			}	else{
@@ -215,10 +217,10 @@ module.exports = function(app) {
 
 	app.post('/delete', function(req, res){
 		AM.deleteAccount(req.body.id, function(e, obj){
-			if (!e){
-				res.clearCookie('user');
-				res.clearCookie('pass');
-	            req.session.destroy(function(e){ res.send('ok', 200); });
+			if (!e && obj){
+				res.clearCookie('user', null);
+				res.clearCookie('pass', null);
+	            req.session.destroy(function(e){ if(!e) res.send('ok', 200); });
 			}	else{
 				res.send('record not found', 400);
 			}

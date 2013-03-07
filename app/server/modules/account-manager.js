@@ -13,7 +13,7 @@ exports.autoLogin = function (user, pass, callback) {
             callback(null);
         }
     });
-}
+};
 
 exports.manualLogin = function (user, pass, callback) {
     userModel.findOne({username:user}, function (e, o) {
@@ -33,7 +33,7 @@ exports.manualLogin = function (user, pass, callback) {
             });
         }
     });
-}
+};
 
 /* record insertion, update & deletion methods */
 
@@ -63,7 +63,7 @@ exports.addNewAccount = function (newData, callback) {
             });
         }
     });
-}
+};
 
 exports.updateAccount = function (newData, callback) {
     userModel.findOne({username:newData.user}, function (e, o) {
@@ -79,7 +79,7 @@ exports.updateAccount = function (newData, callback) {
             });
         }
     });
-}
+};
 
 exports.updatePassword = function (email, newPass, callback) {
     saltAndHash(newPass, function (hash) {
@@ -89,22 +89,20 @@ exports.updatePassword = function (email, newPass, callback) {
             callback
         );
     });
-}
-
-/* account lookup methods */
+};
 
 exports.deleteAccount = function (id, callback) {
     userModel.findByIdAndRemove(
         id,
         callback
     );
-}
+};
 
 exports.getAccountByEmail = function (email, callback) {
     userModel.findOne({email:email}, function (e, o) {
         callback(o);
     });
-}
+};
 
 exports.validateResetLink = function (email, passHash, callback) {
     userModel.find({ $and:[
@@ -112,7 +110,7 @@ exports.validateResetLink = function (email, passHash, callback) {
     ] }, function (e, o) {
         callback(o ? 'ok' : null);
     });
-}
+};
 
 exports.getAllRecords = function (callback) {
     userModel.find().toArray(function (e, res) {
@@ -123,11 +121,11 @@ exports.getAllRecords = function (callback) {
 
 exports.getRecordsForQuery = function (query, callback) {
     userModel.find(query).toArray(callback);
-}
+};
 
 exports.delAllRecords = function (callback) {
     userModel.remove({}, callback); // reset accounts collection for testing //
-}
+};
 
 /* private encryption & validation methods */
 
@@ -139,16 +137,16 @@ var generateSalt = function () {
         salt += set[p];
     }
     return salt;
-}
+};
 
 var md5 = function (str) {
     return crypto.createHash('md5').update(str).digest('hex');
-}
+};
 
 var saltAndHash = function (pass, callback) {
     var salt = generateSalt();
     callback(salt + md5(pass + salt));
-}
+};
 
 var validatePassword = function (plainPass, hashedPass, callback) {
     var salt = hashedPass.substr(0, 10);
