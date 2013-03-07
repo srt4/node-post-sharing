@@ -43,9 +43,9 @@ module.exports = function(app) {
 	});
 	
 // logged-in user homepage //
-	
 	app.get('/home', function(req, res) {
-	    if (req.session.user == null){
+        res.redirect('/posts'); //todo remove
+        if (req.session.user == null){
 	// if user is not logged-in redirect back to login page //
 	        res.redirect('/');
 	    }   else{
@@ -56,21 +56,6 @@ module.exports = function(app) {
 			});
 	    }
 	});
-
-    app.get('/insertFakePost', function(req, res){
-        if (req.session.user == null) {
-            res.redirect('/');
-        } else {
-            PM.createPost(
-                {
-                    user: req.session.user,
-                    title: "Blah Blah Blah",
-                    text: "fsdkjfskfs"
-                }
-            );
-            res.send("Success!");
-        }
-    });
 
     app.get('/posts', function(req, res) {
         if (req.session.user == null) {
@@ -109,8 +94,6 @@ module.exports = function(app) {
             Mongoose.getUserModel().findOne({
                     email: req.session.user.email
             }, function(error, user) {
-                console.log("making post with " + user._id);
-                console.log(user);
                 Mongoose.getPostModel().create({
                     user: user._id,
                     text: text
@@ -125,8 +108,6 @@ module.exports = function(app) {
 
     app.post('/post/:id/like', function(req, res) {
         var id = req.params.id;
-        console.log(id);
-        console.log(typeof id);
         Mongoose.getPostModel().findById(id, function(error, result){
             result.likes.push(
                 req.session.user._id
@@ -134,12 +115,13 @@ module.exports = function(app) {
 
             result.save(function(err){
                 if(err) res.send(err);
-                else res.send("Success");
+                else res.redirect('/posts');
             });
         });
     });
 	
 	app.post('/home', function(req, res){
+        res.redirect('/posts'); //todo remove
 		if (req.param('user') != undefined) {
 			AM.updateAccount({
 				user 		: req.param('user'),
@@ -166,9 +148,7 @@ module.exports = function(app) {
 			req.session.destroy(function(e){ res.send('ok', 200); });
 		}
 	});
-	
-// creating new accounts //
-	
+
 	app.get('/signup', function(req, res) {
 		res.render('signup', {  title: 'Signup', countries : CT });
 	});
@@ -189,18 +169,12 @@ module.exports = function(app) {
 		});
 	});
 
-// password reset //
-
 	app.post('/lost-password', function(req, res){
-	// look up the user's account via their email //
 		AM.getAccountByEmail(req.param('email'), function(o){
 			if (o){
 				res.send('ok', 200);
 				EM.dispatchResetPasswordLink(o, function(e, m){
-				// this callback takes a moment to return //
-				// should add an ajax loader to give user feedback //
 					if (!e) {
-					//	res.send('ok', 200);
 					}	else{
 						res.send('email-server-error', 400);
 						for (k in e) console.log('error : ', k, e[k]);
@@ -240,15 +214,7 @@ module.exports = function(app) {
 			}
 		})
 	});
-	
-// view & delete accounts //
-	
-	app.get('/print', function(req, res) {
-		AM.getAllRecords( function(e, accounts){
-			res.render('print', { title : 'Account List', accts : accounts });
-		})
-	});
-	
+
 	app.post('/delete', function(req, res){
 		AM.deleteAccount(req.body.id, function(e, obj){
 			if (!e){
@@ -261,12 +227,5 @@ module.exports = function(app) {
 	    });
 	});
 	
-	app.get('/reset', function(req, res) {
-		AM.delAllRecords(function(){
-			res.redirect('/print');	
-		});
-	});
-	
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
-
 };
