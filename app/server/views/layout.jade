@@ -1,0 +1,30 @@
+!!! 5
+html
+    head
+        title Node.js Login
+        link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+        link(
+            href='http://fonts.googleapis.com/css?family=Oxygen:400,700,300',
+            rel='stylesheet',
+            type='text/css'
+        )
+
+        block styles
+    body
+        canvas(
+            class="blur"
+            src="http://www.sanfrancisco.net/pictures/san-francisco.jpg"
+            width="300"
+            height="200"
+        )
+    block content
+    block scripts
+        script(src='/vendor/jquery.min.js')
+        script(src='/vendor/jquery.form.js')
+        script(src='/js/canvasImage.js')
+        script(src='/vendor/bootstrap-modal.js')
+        script(src='/vendor/bootstrap-transition.js')
+        script(src='/js/views/home.js')
+        script(src='/js/controllers/homeController.js')
+        script(src='/js/form-validators/accountValidator.js')

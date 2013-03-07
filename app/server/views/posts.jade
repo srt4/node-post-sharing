@@ -1,0 +1,11 @@
+extends layout
+
+block styles
+    link(rel='stylesheet', href='/css/posts.css')
+block content
+    div.posts-container
+        - each post in posts
+            div.post
+                div.title="The quick brown fox jumps over the lazy dogs"
+                div.post-text=post.text
+    include modals/post
