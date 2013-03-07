@@ -2,8 +2,6 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
-var PM = require('./modules/post-manager');
-var PostFactory = require('./models/post.js');
 var Mongoose = require('./modules/mongoose');
 
 module.exports = function(app) {

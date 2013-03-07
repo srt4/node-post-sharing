@@ -50,7 +50,7 @@ window.onload = function () {
         var preload = new Image;
         preload.onload = function () {
             var cImage = new CanvasImage(that, this);
-            cImage.blur(4);
+            cImage.blur(2);
         };
         preload.src = $(this).attr("src")
     });
