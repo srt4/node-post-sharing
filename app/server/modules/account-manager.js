@@ -72,7 +72,8 @@ exports.addNewAccount = function(newData, callback)
 
 exports.updateAccount = function(newData, callback)
 {
-	userModel.findOne({user:newData.user}, function(e, o){
+    /*
+	userModel.findOne({username:newData.user}, function(e, o){
 		o.name 		= newData.name;
 		o.email 	= newData.email;
 		o.country 	= newData.country;
@@ -84,7 +85,7 @@ exports.updateAccount = function(newData, callback)
 				userModel.save(o, {safe: true}, callback);
 			});
 		}
-	});
+	});*/
 }
 
 exports.updatePassword = function(email, newPass, callback)

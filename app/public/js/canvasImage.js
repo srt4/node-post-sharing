@@ -8,7 +8,7 @@
  * @param {HTMLElement} element HTML canvas element.
  * @param {Image} image Image object.
  */
-var CanvasImage = function(element, image) {
+var CanvasImage = function (element, image) {
     this.image = image;
     this.element = element;
     this.element.width = this.image.width;
@@ -22,7 +22,7 @@ CanvasImage.prototype = {
      *
      * @param {int} strength Strength of the blur.
      */
-    blur: function (strength) {
+    blur:function (strength) {
         this.context.globalAlpha = 0.5; // Higher alpha made it more smooth
         // Add blur layers by strength to x and y
         // 2 made it a bit faster without noticeable quality loss
@@ -32,8 +32,8 @@ CanvasImage.prototype = {
                 this.context.drawImage(this.element, x, y);
                 // Add an extra layer, prevents it from rendering lines
                 // on top of the images (does makes it slower though)
-                if (x>=0 && y>=0) {
-                    this.context.drawImage(this.element, -(x-1), -(y-1));
+                if (x >= 0 && y >= 0) {
+                    this.context.drawImage(this.element, -(x - 1), -(y - 1));
                 }
             }
         }
@@ -44,6 +44,14 @@ CanvasImage.prototype = {
 /**
  * Initialise an image on the page and blur it.
  */
-window.onload = function() {
-    $(".blur").each(function(){n=this,e=new Image,e.onload=function(){t=new CanvasImage(n,this),t.blur(4)},e.src=$(this).attr("src")});
+window.onload = function () {
+    $(".blur").each(function () {
+        var that = this;
+        var preload = new Image;
+        preload.onload = function () {
+            var cImage = new CanvasImage(that, this);
+            cImage.blur(4);
+        };
+        preload.src = $(this).attr("src")
+    });
 };

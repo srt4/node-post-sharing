@@ -82,6 +82,7 @@ module.exports = function(app) {
             Mongoose.getPostModel()
                 .find()
                 .populate('user')
+                .populate('likes')
                 .exec(function(error, posts) {
                     console.log(posts);
                     res.render('posts', {
@@ -120,6 +121,22 @@ module.exports = function(app) {
             });
 
         }
+    });
+
+    app.post('/post/:id/like', function(req, res) {
+        var id = req.params.id;
+        console.log(id);
+        console.log(typeof id);
+        Mongoose.getPostModel().findById(id, function(error, result){
+            result.likes.push(
+                req.session.user._id
+            );
+
+            result.save(function(err){
+                if(err) res.send(err);
+                else res.send("Success");
+            });
+        });
     });
 	
 	app.post('/home', function(req, res){

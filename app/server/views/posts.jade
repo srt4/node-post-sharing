@@ -9,3 +9,11 @@ block content
             div.post
                 div.post-text=post.text
                 div.post-user Posted by #{post.user.username}
+                form(
+                    method='post'
+                    action='/post/' + post._id + '/like'
+                )
+                    button Like
+                div.liked-by Following users liked this:
+                    - each like in post.likes
+                        span=" " + like.username
