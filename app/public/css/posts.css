@@ -42,3 +42,7 @@ form {
 textarea {
     width: 95%;
 }
+
+.like {
+    display: inline-block;
+}

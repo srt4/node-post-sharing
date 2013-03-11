@@ -17,10 +17,10 @@ exports.autoLogin = function (user, pass, callback) {
 
 exports.manualLogin = function (user, pass, callback) {
     userModel.findOne({username:user}, function (e, o) {
-        console.log(o);
         if (e != null) {
             console.log(e);
         }
+
         if (o == null) {
             callback('user-not-found');
         } else {
@@ -49,7 +49,6 @@ exports.addNewAccount = function (newData, callback) {
                     callback('email-taken');
                 } else {
                     saltAndHash(newData.pass, function (hash) {
-
                         user.password = hash;
                         user.email = newData.email;
                         user.username = newData.user;
@@ -122,12 +121,6 @@ exports.getAllRecords = function (callback) {
 exports.getRecordsForQuery = function (query, callback) {
     userModel.find(query).toArray(callback);
 };
-
-exports.delAllRecords = function (callback) {
-    userModel.remove({}, callback); // reset accounts collection for testing //
-};
-
-/* private encryption & validation methods */
 
 var generateSalt = function () {
     var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';

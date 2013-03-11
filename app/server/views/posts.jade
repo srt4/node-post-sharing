@@ -6,24 +6,4 @@ block content
     .posts-container
         include modals/post
         - each post in posts
-            .post
-                .post-text=post.text
-                .post-user Posted by #{post.user.username} at #{post.dateCreated}
-                form(
-                    method='post'
-                    action='/post/' + post._id + '/like'
-                )
-                    button Like
-
-                form(
-                    method='post'
-                    action='/post/' + post._id + '/comment'
-                )
-                    input(type='text', name='text')
-                    button Submit
-                .liked-by Following users liked this:
-                    - each like in post.likes
-                        span=" " + like
-                .comments Comments:
-                    - each comment in post.replies
-                        span=comment.user.username + ' ' + comment.text
+            include post

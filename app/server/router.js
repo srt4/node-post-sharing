@@ -1,8 +1,7 @@
-
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
-var uScore = require('underscore');
+var _ = require('underscore');
 var Mongoose = require('./modules/mongoose');
 
 module.exports = function(app) {
@@ -75,13 +74,11 @@ module.exports = function(app) {
         if(req.session.user == null) {
             res.redirect('/');
         } else {
-            console.log(req.params);
             var text = req.param('text', null);
             if (text == null) {
                 res.send('error-posting', 400);
             }
 
-            console.log(req.session.user.email);
             Mongoose.getUserModel().findOne({
                     email: req.session.user.email
             }, function(error, user) {
@@ -100,7 +97,12 @@ module.exports = function(app) {
     app.post('/post/:id/like', function(req, res) {
         var id = req.params.id;
         Mongoose.getPostModel().findById(id, function(error, post){
-            if (_.contains(post.likes, req.session.user._id)) {
+            var alreadyLiked = false;
+            _.each(post.likes, function(userId) {
+                alreadyLiked = alreadyLiked || userId == req.session.user._id;
+            });
+
+            if (!alreadyLiked) {
                 post.likes.push(
                     req.session.user._id
                 );

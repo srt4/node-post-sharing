@@ -23,7 +23,7 @@ var User = new Schema({
     username: String,
     email: String,
     password: String,
-    name: String,
+    name: String
 });
 
 var UserModel = mongoose.model('User', User);

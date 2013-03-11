@@ -1,0 +1,23 @@
+.post
+    .post-text=post.text
+    .post-user Posted by #{post.user.username} at #{post.dateCreated}
+    form(
+    method='post'
+    action='/post/' + post._id + '/like'
+    )
+        button Like
+    form(
+    method='post'
+    action='/post/' + post._id + '/comment'
+    )
+        input(type='text', name='text')
+        button Submit
+    .liked-by Following users liked this:
+        - each like in post.likes
+            .like
+                include user
+    .comments
+        - each comment in post.replies
+            .comment
+                .comment-text=comment.text
+                .comment-author=comment.user.username
