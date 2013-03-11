@@ -2,6 +2,7 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var uScore = require('underscore');
 var Mongoose = require('./modules/mongoose');
 
 module.exports = function(app) {
@@ -58,8 +59,8 @@ module.exports = function(app) {
                 .sort({'_id': -1})
                 .populate('user')
                 .populate('likes')
+                .populate('replies.user')
                 .exec(function(error, posts) {
-                    console.log(posts);
                     res.render('posts', {
                         title: "Posts",
                         udata: req.session.user,
@@ -98,12 +99,33 @@ module.exports = function(app) {
 
     app.post('/post/:id/like', function(req, res) {
         var id = req.params.id;
-        Mongoose.getPostModel().findById(id, function(error, result){
-            result.likes.push(
-                req.session.user._id
-            );
+        Mongoose.getPostModel().findById(id, function(error, post){
+            if (_.contains(post.likes, req.session.user._id)) {
+                post.likes.push(
+                    req.session.user._id
+                );
+            }
 
-            result.save(function(error){
+            post.save(function(error){
+                if(!error) {
+                    res.redirect('/posts');
+                } else {
+                    res.send('Error');
+                }
+            });
+        });
+    });
+
+    app.post('/post/:id/comment', function(req, res){
+        var id = req.params.id;
+
+        Mongoose.getPostModel().findById(id, function(error, post){
+            post.replies.push({
+                user: req.session.user._id,
+                text: req.param('text', null)
+            });
+
+            post.save(function(error){
                 if(!error) {
                     res.redirect('/posts');
                 } else {

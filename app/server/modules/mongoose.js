@@ -2,14 +2,17 @@ var mongoose = require('mongoose'),
     db = mongoose.connect('mongodb://localhost/test'),
     Schema = mongoose.Schema;
 
+var Comment = new Schema({
+    user: {type: Schema.Types.ObjectId, ref: 'User'},
+    text: String,
+    likes: [{type: Schema.Types.ObjectId, ref: 'User'}]
+});
+
 var Post = new Schema({
     user:  {type: Schema.Types.ObjectId, ref: 'User'},
     text: String,
     likes: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    replies: [Post]
-});
-Post.virtual('dateCreated').get(function(){
-    return this._id.getTimestamp();
+    replies: [Comment]
 });
 
 var User = new Schema({
@@ -17,12 +20,17 @@ var User = new Schema({
     email: String,
     password: String,
     name: String,
-    posts: [{type: Schema.Types.ObjectId, ref: 'Post'}]
 });
 
 var UserModel = mongoose.model('User', User);
 
+var CommentModel = mongoose.model('Comment', Comment);
+
 var PostModel = mongoose.model('Post', Post);
+
+exports.createNewComment = function() {
+    return new Comment;
+};
 
 exports.createNewUser = function() {
     return new User;
@@ -30,6 +38,10 @@ exports.createNewUser = function() {
 
 exports.createNewPost = function() {
     return new Post;
+};
+
+exports.getCommentModel = function() {
+    return CommentModel;
 };
 
 exports.getUserModel = function() {

@@ -3,17 +3,27 @@ extends layout
 block styles
     link(rel='stylesheet', href='/css/posts.css')
 block content
-    div.posts-container
+    .posts-container
         include modals/post
         - each post in posts
-            div.post
-                div.post-text=post.text
-                div.post-user Posted by #{post.user.username} at #{post.dateCreated}
+            .post
+                .post-text=post.text
+                .post-user Posted by #{post.user.username} at #{post.dateCreated}
                 form(
                     method='post'
                     action='/post/' + post._id + '/like'
                 )
                     button Like
-                div.liked-by Following users liked this:
+
+                form(
+                    method='post'
+                    action='/post/' + post._id + '/comment'
+                )
+                    input(type='text', name='text')
+                    button Submit
+                .liked-by Following users liked this:
                     - each like in post.likes
-                        span=" " + like.username
+                        span=" " + like
+                .comments Comments:
+                    - each comment in post.replies
+                        span=comment.user.username + ' ' + comment.text
