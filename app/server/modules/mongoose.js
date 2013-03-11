@@ -15,6 +15,10 @@ var Post = new Schema({
     replies: [Comment]
 });
 
+Post.virtual('dateCreated').get(function(){
+    return this._id.getTimestamp();
+});
+
 var User = new Schema({
     username: String,
     email: String,
