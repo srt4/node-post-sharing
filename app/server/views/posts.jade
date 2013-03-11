@@ -2,8 +2,11 @@ extends layout
 
 block styles
     link(rel='stylesheet', href='/css/posts.css')
+block customScripts
+    script(src='/js/form-submitters/mainSubmitter.js')
 block content
     .posts-container
         include modals/post
         - each post in posts
-            include post
+            #all-posts
+                include post

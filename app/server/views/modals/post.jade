@@ -1,6 +1,6 @@
 
 #new-post-container
-    form(method='post')
+    form(method='post', action="/posts", data-refresh-id="all-posts")
         fieldset
             #body-cg.control-group
                 textarea#body-ta(name='text')

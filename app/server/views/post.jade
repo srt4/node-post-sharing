@@ -1,23 +1,31 @@
-.post
+.post(id='post-#{post._id}')
     .post-text=post.text
     .post-user Posted by #{post.user.username} at #{post.dateCreated}
     form(
-    method='post'
-    action='/post/' + post._id + '/like'
+        class='like-form'
+        method='post'
+        action='/post/' + post._id + '/like'
+        data-refresh-id='likes-#{post._id}'
     )
         button Like
+
     form(
-    method='post'
-    action='/post/' + post._id + '/comment'
+        class='comment-form'
+        method='post'
+        action='/post/' + post._id + '/comment'
+        data-refresh-id='comments-#{post._id}'
     )
         input(type='text', name='text')
-        button Submit
-    .liked-by Following users liked this:
+        button Comment
+
+    .liked-by(id='likes-#{post._id}') Following users liked this:
         - each like in post.likes
             .like
                 include user
-    .comments
+    .comments(id='comments-#{post._id}')
         - each comment in post.replies
             .comment
                 .comment-text=comment.text
-                .comment-author=comment.user.username
+                .comment-author
+                    user = comment.user
+                    include user
