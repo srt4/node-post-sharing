@@ -1,1 +1,11 @@
-a(href='/user/' + user._id)=user.username
+extends layout
+
+block styles
+    link(rel='stylesheet', href='/css/posts.css')
+block content
+    .posts-container
+        .user
+            .user-name=user.username
+            #all-posts
+                -each post in posts
+                    include post

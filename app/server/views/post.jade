@@ -1,6 +1,10 @@
 .post(id='post-#{post._id}')
     .post-text=post.text
-    .post-user Posted by #{post.user.username} at #{post.dateCreated}
+    .post-user
+        |Posted by  
+        user = post.user
+        include util/userLink
+        |  at #{post.dateCreated}
     form(
         class='like-form'
         method='post'
@@ -22,11 +26,11 @@
         - each like in post.likes
             .like
                 user = like
-                include user
+                include util/userLink
     .comments(id='comments-#{post._id}')
         - each comment in post.replies
             .comment
                 .comment-text=comment.text
                 .comment-author
                     user = comment.user
-                    include user
+                    include util/userLink

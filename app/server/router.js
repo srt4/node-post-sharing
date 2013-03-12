@@ -136,6 +136,28 @@ module.exports = function(app) {
             });
         });
     });
+
+    app.get('/user/:id', function(req, res){
+        var id = req.params.id;
+        Mongoose
+            .getUserModel()
+            .findById(id)
+            .exec(function(error, user){
+                Mongoose.getPostModel().find({
+                    user: user._id
+                })
+                .sort({'_id': -1})
+                .populate('user')
+                .populate('likes')
+                .populate('replies.user')
+                .exec(function(error, posts){
+                        res.render('user', {
+                            user: user,
+                            posts: posts
+                        });
+                });
+            });
+    });
 	
 	app.post('/home', function(req, res){
         res.redirect('/posts'); //todo remove
