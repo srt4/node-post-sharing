@@ -21,6 +21,7 @@
     .liked-by(id='likes-#{post._id}') Following users liked this:
         - each like in post.likes
             .like
+                user = like
                 include user
     .comments(id='comments-#{post._id}')
         - each comment in post.replies
