@@ -10,7 +10,7 @@ body {
   top: 0;
   left: 0;
   z-index: -2;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 #login-container {
   width: 340px;
