@@ -7,7 +7,7 @@ $(document).ready(function(){
             updateElement = $form.attr('data-refresh-id');
         }
 
-        $form.children('button, submit').disabled = true;
+        $form.find('button, submit').disabled = true;
 
         var method = $form.attr('method').toLowerCase() == "post" ?
             $.post : $.get;
