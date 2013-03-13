@@ -1,13 +1,13 @@
 $(document).ready(function(){
-    $('form').submit(function(form) {
-        var $form = $(form.target);
+    $('form').submit(function() {
+        var $form = $(this);
         var url = $form.attr('action');
         var updateElement = null;
         if ($form.attr('data-refresh-id')) {
             updateElement = $form.attr('data-refresh-id');
         }
 
-        $form.children('button, submit').disable();
+        $form.children('button, submit').disabled = true;
 
         var method = $form.attr('method').toLowerCase() == "post" ?
             $.post : $.get;
@@ -16,10 +16,11 @@ $(document).ready(function(){
             if (updateElement) {
                 $('#' + updateElement).load(window.location + ' #' + updateElement);
             }
-            
-            $form.children('button, submit').enable();
+
+            $form.children('button, submit').disabled = false;
             $form.children('input[type=text], textarea').val('');
         });
+
         return false;
     });
 });
