@@ -17,8 +17,8 @@ $(document).ready(function(){
                 $('#' + updateElement).load(window.location + ' #' + updateElement);
             }
 
-            $form.children('button, submit').disabled = false;
-            $form.children('input[type=text], textarea').val('').text('');
+            $form.find('button, submit').disabled = false;
+            $form.find('input[type=text], textarea').val('');
         });
 
         return false;
