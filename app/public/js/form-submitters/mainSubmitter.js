@@ -18,7 +18,7 @@ $(document).ready(function(){
             }
 
             $form.children('button, submit').disabled = false;
-            $form.children('input[type=text], textarea').val('');
+            $form.children('input[type=text], textarea').val('').text('');
         });
 
         return false;
