@@ -7,7 +7,7 @@ $(document).ready(function(){
             updateElement = $form.attr('data-refresh-id');
         }
 
-        $form.find('button, submit').disabled = true;
+        $form.find('button, submit').attr('disabled', true);
 
         var method = $form.attr('method').toLowerCase() == "post" ?
             $.post : $.get;
@@ -17,7 +17,7 @@ $(document).ready(function(){
                 $('#' + updateElement).load(window.location + ' #' + updateElement);
             }
 
-            $form.find('button, submit').disabled = false;
+            $form.find('button, submit').attr('disabled', false);
             $form.find('input[type=text], textarea').val('');
         });
 
