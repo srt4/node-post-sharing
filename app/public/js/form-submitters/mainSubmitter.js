@@ -7,6 +7,8 @@ $(document).ready(function(){
             updateElement = $form.attr('data-refresh-id');
         }
 
+        $form.children('button, submit').disable();
+
         var method = $form.attr('method').toLowerCase() == "post" ?
             $.post : $.get;
 
@@ -14,6 +16,9 @@ $(document).ready(function(){
             if (updateElement) {
                 $('#' + updateElement).load(window.location + ' #' + updateElement);
             }
+            
+            $form.children('button, submit').enable();
+            $form.children('input[type=text], textarea').val('');
         });
         return false;
     });
