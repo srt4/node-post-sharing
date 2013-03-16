@@ -3,8 +3,10 @@ $(document).ready(function(){
 
 	var hc = new HomeController();
 	var av = new AccountValidator();
-	
-	$('#account-form').ajaxForm({
+
+    var $accountForm = $("#account-form");
+
+	$accountForm.ajaxForm({
 		beforeSubmit : function(formData, jqForm, options){
 			if (av.validateForm() == false){
 				return false;
@@ -30,20 +32,21 @@ $(document).ready(function(){
 
 // customize the account settings form //
 	
-	$('#account-form h1').text('Account Settings');
-	$('#account-form #sub1').text('Here are the current settings for your account.');
+	$accountForm.find('h1').text('Account Settings');
+	$accountForm.find('#sub1').text('Here are the current settings for your account.');
 	$('#user-tf').attr('disabled', 'disabled');
-	$('#account-form-btn1').html('Delete');
-	$('#account-form-btn1').addClass('btn-danger');
-	$('#account-form-btn2').html('Update');
+	$accountForm.find('#account-form-btn1').html('Delete');
+	$accountForm.find('#account-form-btn1').addClass('btn-danger');
+	$accountForm.find('#account-form-btn2').html('Update');
 
 // setup the confirm window that displays when the user chooses to delete their account //
 
-	$('.modal-confirm').modal({ show : false, keyboard : true, backdrop : true });
-	$('.modal-confirm .modal-header h3').text('Delete Account');
-	$('.modal-confirm .modal-body p').html('Are you sure you want to delete your account?');
-	$('.modal-confirm .cancel').html('Cancel');
-	$('.modal-confirm .submit').html('Delete');
-	$('.modal-confirm .submit').addClass('btn-danger');
+    var $modalConfirm = $('.modal-confirm');
+	$modalConfirm.modal({ show : false, keyboard : true, backdrop : true });
+	$modalConfirm.find('.modal-header h3').text('Delete Account');
+	$modalConfirm.find('.modal-body p').html('Are you sure you want to delete your account?');
+	$modalConfirm.find('.cancel').html('Cancel');
+	$modalConfirm.find('.submit').html('Delete');
+	$modalConfirm.find('.submit').addClass('btn-danger');
 
 })
