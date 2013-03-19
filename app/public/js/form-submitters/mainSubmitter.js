@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('form').submit(function() {
+    $('form').live('submit', function() {
         var $form = $(this);
         var url = $form.attr('action');
         var updateElement = null;
