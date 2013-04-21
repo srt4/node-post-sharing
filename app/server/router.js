@@ -158,6 +158,14 @@ module.exports = function(app) {
                 });
             });
     });
+
+    app.get('/users', function(req, res) {
+
+        AM.getAllRecords(function(e, accounts){
+            console.log(accounts);
+            res.render('print', { title : 'Account List', accts : accounts });
+        });
+    });
 	
 	app.post('/home', function(req, res){
         res.redirect('/posts'); //todo remove

@@ -112,7 +112,7 @@ exports.validateResetLink = function (email, passHash, callback) {
 };
 
 exports.getAllRecords = function (callback) {
-    userModel.find().toArray(function (e, res) {
+    userModel.find(function (e, res) {
         if (e) callback(e);
         else callback(null, res);
     });
